@@ -1,3 +1,7 @@
+variable "name_suffix" {
+  type = "string"
+}
+
 variable "cluster_name" {
   type = "string"
 }

@@ -2,23 +2,15 @@ data "azurerm_resource_group" "main" {
   name = "${var.resource_group}"
 }
 
-resource "random_string" "id" {
-  length  = 6
-  lower   = true
-  upper   = false
-  number  = false
-  special = false
-}
-
 resource "azurerm_public_ip" "public_ip" {
-  name                         = "${var.cluster_name}-${var.environment}-${random_string.id.result}-pip"
+  name                         = "${var.cluster_name}-${var.environment}-${var.name_suffix}-pip"
   location                     = "${data.azurerm_resource_group.main.location}"
   resource_group_name          = "${data.azurerm_resource_group.main.name}"
   public_ip_address_allocation = "static"
 }
 
 resource "azurerm_lb" "load_balancer" {
-  name                = "${var.cluster_name}-${var.environment}-${random_string.id.result}-lb"
+  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-lb"
   location            = "${data.azurerm_resource_group.main.location}"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
 
@@ -29,13 +21,13 @@ resource "azurerm_lb" "load_balancer" {
 }
 
 resource "azurerm_lb_backend_address_pool" "address_pool" {
-  name                = "${var.cluster_name}-${var.environment}-${random_string.id.result}-workers"
+  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-workers"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
 }
 
 resource "azurerm_lb_probe" "lb_probe" {
-  name                = "${var.cluster_name}-${var.environment}-${random_string.id.result}-lb-probe"
+  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-lb-probe"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
   protocol            = "http"
@@ -45,7 +37,7 @@ resource "azurerm_lb_probe" "lb_probe" {
 }
 
 resource "azurerm_lb_rule" "lb_rule_http" {
-  name                           = "${var.cluster_name}-${var.environment}-${random_string.id.result}-lb-rule-http"
+  name                           = "${var.cluster_name}-${var.environment}-${var.name_suffix}-lb-rule-http"
   resource_group_name            = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id                = "${azurerm_lb.load_balancer.id}"
   protocol                       = "tcp"
@@ -57,7 +49,7 @@ resource "azurerm_lb_rule" "lb_rule_http" {
 }
 
 resource "azurerm_lb_rule" "lb_rule_https" {
-  name                           = "${var.cluster_name}-${var.environment}-${random_string.id.result}-lb-rule-https"
+  name                           = "${var.cluster_name}-${var.environment}-${var.name_suffix}-lb-rule-https"
   resource_group_name            = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id                = "${azurerm_lb.load_balancer.id}"
   protocol                       = "tcp"
