@@ -26,3 +26,8 @@ module "az_lb" {
 * **lb_probe_port**: Port for being used for load balancer probe (type: string, required).
 * **lb_rule_port_http**: HTTP port (type: string, required).
 * **lb_rule_port_https**: HTTPS port (type: string, required).
+
+
+## Outputs
+
+* **load_balancer_ip**: The load balancer public IP.
