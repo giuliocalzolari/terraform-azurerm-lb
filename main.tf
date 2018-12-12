@@ -31,7 +31,7 @@ resource "azurerm_lb_probe" "lb_probe" {
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
   protocol            = "http"
-  request_path        = "/"
+  request_path        = "${var.lb_probe_request_path}"
   port                = "${var.lb_probe_port}"
   interval_in_seconds = 15
 }

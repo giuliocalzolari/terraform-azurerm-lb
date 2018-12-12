@@ -18,6 +18,10 @@ variable "lb_probe_port" {
   type = "string"
 }
 
+variable "lb_probe_request_path" {
+  type = "string"
+}
+
 variable "lb_rule_port_http" {
   type = "string"
 }
