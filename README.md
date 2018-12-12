@@ -12,6 +12,7 @@ module "az_lb" {
   cluster_name = "my-cluster-name"
   environment = "staging"
   lb_probe_port = "30000"
+  lb_probe_request_path = "/"
   lb_rule_port_http = "30001"
   lb_rule_port_https = "30002"
 
@@ -24,6 +25,7 @@ module "az_lb" {
 * **cluster_name**: Name of the cluster (type: string, default: kubernetes).
 * **environment**: Environment where the cluster is deployed (type: string, default: labs).
 * **lb_probe_port**: Port for being used for load balancer probe (type: string, required).
+* **lb_probe_request_path**: Request path for the load balancer probe (type: string, required).
 * **lb_rule_port_http**: HTTP port (type: string, required).
 * **lb_rule_port_https**: HTTPS port (type: string, required).
 
@@ -31,3 +33,4 @@ module "az_lb" {
 ## Outputs
 
 * **load_balancer_ip**: The load balancer public IP.
+* **lb_address_pool_id**: The load balancer pool ID.
