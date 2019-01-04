@@ -1,5 +1,10 @@
-variable "name_suffix" {
+variable "resource_group" {
   type = "string"
+}
+
+variable "lb_type" {
+  type    = "string"
+  default = "public"
 }
 
 variable "cluster_name" {
@@ -10,22 +15,21 @@ variable "environment" {
   type = "string"
 }
 
-variable "resource_group" {
+variable "name_suffix" {
   type = "string"
 }
 
-variable "lb_probe_port" {
-  type = "string"
+variable "lb_port" {
+  type    = "map"
+  default = {}
 }
 
-variable "lb_probe_request_path" {
-  type = "string"
+variable "lb_probe_interval" {
+  type    = "string"
+  default = 5
 }
 
-variable "lb_rule_port_http" {
-  type = "string"
-}
-
-variable "lb_rule_port_https" {
-  type = "string"
+variable "lb_probe_unhealthy_threshold" {
+  type    = "string"
+  default = 2
 }
