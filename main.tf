@@ -49,7 +49,7 @@ resource "azurerm_lb_rule" "lb_rule" {
   protocol                       = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 1)}"
   frontend_port                  = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 0)}"
   backend_port                   = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 2)}"
-  frontend_ip_configuration_name = "${var.cluster_name}-${var.environment}-${var.name_suffix}-frontend"
+  frontend_ip_configuration_name = "${var.cluster_name}-${var.environment}-${var.name_suffix}-${var.lb_type}-frontend"
   enable_floating_ip             = false
   backend_address_pool_id        = "${azurerm_lb_backend_address_pool.address_pool.id}"
   idle_timeout_in_minutes        = 5
