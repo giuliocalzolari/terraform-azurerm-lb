@@ -1,5 +1,5 @@
 output "load_balancer_ip" {
-  value = "${azurerm_public_ip.public_ip.ip_address}"
+  value = "${azurerm_public_ip.public_ip.*.ip_address}"
 }
 
 output "lb_address_pool_id" {

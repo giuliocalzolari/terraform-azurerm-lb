@@ -4,19 +4,19 @@ data "azurerm_resource_group" "main" {
 
 resource "azurerm_public_ip" "public_ip" {
   count                        = "${var.lb_type == "public" ? 1 : 0}"
-  name                         = "${var.cluster_name}-${var.environment}-${var.name_suffix}-pip"
+  name                         = "${var.cluster_name}-${var.environment}-${var.name_suffix}-${var.lb_type}-pip"
   location                     = "${data.azurerm_resource_group.main.location}"
   resource_group_name          = "${data.azurerm_resource_group.main.name}"
   public_ip_address_allocation = "static"
 }
 
 resource "azurerm_lb" "load_balancer" {
-  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-lb"
+  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-${var.lb_type}-lb"
   location            = "${data.azurerm_resource_group.main.location}"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
 
   frontend_ip_configuration {
-    name                          = "${var.cluster_name}-${var.environment}-${var.name_suffix}-frontend"
+    name                          = "${var.cluster_name}-${var.environment}-${var.name_suffix}-${var.lb_type}-frontend"
     public_ip_address_id          = "${var.lb_type == "public" ? join("",azurerm_public_ip.public_ip.*.id) : ""}"
     subnet_id                     = "${var.frontend_subnet_id}"
     private_ip_address            = "${var.frontend_private_ip_address}"
@@ -25,7 +25,7 @@ resource "azurerm_lb" "load_balancer" {
 }
 
 resource "azurerm_lb_backend_address_pool" "address_pool" {
-  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-workers"
+  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-${var.lb_type}-workers"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
 }
