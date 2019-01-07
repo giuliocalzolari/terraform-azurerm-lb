@@ -33,3 +33,18 @@ variable "lb_probe_unhealthy_threshold" {
   type    = "string"
   default = 2
 }
+
+variable "frontend_subnet_id" {
+  type    = "string"
+  default = ""
+}
+
+variable "frontend_private_ip_address" {
+  type    = "string"
+  default = ""
+}
+
+variable "frontend_private_ip_address_allocation" {
+  type    = "string"
+  default = "Dynamic"
+}
