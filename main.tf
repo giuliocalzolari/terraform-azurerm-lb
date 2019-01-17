@@ -7,7 +7,7 @@ resource "azurerm_public_ip" "public_ip" {
   name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-pip"
   location            = "${data.azurerm_resource_group.main.location}"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
-  allocation_method   = "static"
+  allocation_method   = "Static"
 }
 
 resource "azurerm_lb" "load_balancer" {
