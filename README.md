@@ -11,11 +11,12 @@ module "az_lb" {
   resource_group = "my-resource-group"
   cluster_name = "my-cluster-name"
   environment = "staging"
-  lb_probe_port = "30000"
-  lb_probe_request_path = "/"
-  lb_rule_port_http = "30001"
-  lb_rule_port_https = "30002"
+  name_suffix = "abc123"
 
+  lb_port = {
+    http  = ["80", "Tcp", "80"]
+    https = ["443", "Tcp", "443"]
+  }
 }
 ```
 
@@ -24,11 +25,8 @@ module "az_lb" {
 * **resource_group**: Resource group where all resources will be provisioned (type: string, required).
 * **cluster_name**: Name of the cluster (type: string, default: kubernetes).
 * **environment**: Environment where the cluster is deployed (type: string, default: labs).
-* **lb_probe_port**: Port for being used for load balancer probe (type: string, required).
-* **lb_probe_request_path**: Request path for the load balancer probe (type: string, required).
-* **lb_rule_port_http**: HTTP port (type: string, required).
-* **lb_rule_port_https**: HTTPS port (type: string, required).
-
+* **name_suffix**: A string used as name suffix (type: string).
+* **lb_port**: A map used to provide the load balancer rules, each item is a key/value object, and the value is a list with the following variables: frontend_port, protocol, backend_port.
 
 ## Outputs
 
