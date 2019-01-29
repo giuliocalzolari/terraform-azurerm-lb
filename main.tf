@@ -56,3 +56,5 @@ resource "azurerm_lb_rule" "lb_rule" {
   probe_id                       = "${element(azurerm_lb_probe.lb_probe.*.id,count.index)}"
   depends_on                     = ["azurerm_lb_probe.lb_probe"]
 }
+
+
