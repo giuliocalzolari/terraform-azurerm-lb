@@ -11,12 +11,12 @@ resource "azurerm_public_ip" "public_ip" {
 }
 
 resource "azurerm_lb" "load_balancer" {
-  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-lb"
+  name                = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-lb"
   location            = "${data.azurerm_resource_group.main.location}"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
 
   frontend_ip_configuration {
-    name                          = "${var.cluster_name}-${var.environment}-${var.name_suffix}-frontend"
+    name                          = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-frontend"
     public_ip_address_id          = "${var.lb_type == "public" ? join("",azurerm_public_ip.public_ip.*.id) : ""}"
     subnet_id                     = "${var.frontend_subnet_id}"
     private_ip_address            = "${var.frontend_private_ip_address}"
@@ -25,7 +25,7 @@ resource "azurerm_lb" "load_balancer" {
 }
 
 resource "azurerm_lb_backend_address_pool" "address_pool" {
-  name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-${var.lb_type}-workers"
+  name                = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-workers"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
 }
@@ -56,5 +56,3 @@ resource "azurerm_lb_rule" "lb_rule" {
   probe_id                       = "${element(azurerm_lb_probe.lb_probe.*.id,count.index)}"
   depends_on                     = ["azurerm_lb_probe.lb_probe"]
 }
-
-
