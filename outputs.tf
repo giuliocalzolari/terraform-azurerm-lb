@@ -1,5 +1,5 @@
 output "load_balancer_public_ip" {
-  value = "${var.lb_type == "public" ? azurerm_public_ip.public_ip.*.ip_address : ""}"
+  value = "${azurerm_public_ip.public_ip.*.ip_address}"
 }
 
 output "load_balancer_private_ip" {
