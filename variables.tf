@@ -34,12 +34,12 @@ variable "lb_probe_unhealthy_threshold" {
   default = 2
 }
 
-variable "frontend_subnet_id" {
+variable "vnet_name" {
   type    = "string"
   default = ""
 }
 
-variable "frontend_private_ip_address" {
+variable "subnet_name" {
   type    = "string"
   default = ""
 }
@@ -47,4 +47,9 @@ variable "frontend_private_ip_address" {
 variable "frontend_private_ip_address_allocation" {
   type    = "string"
   default = "Dynamic"
+}
+
+variable "frontend_private_ip_address" {
+  type    = "string"
+  default = ""
 }
