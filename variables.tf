@@ -19,7 +19,7 @@ variable "name_suffix" {
   type = "string"
 }
 
-variable "lb_port" {
+variable "lb_ports" {
   type    = "map"
   default = {}
 }
