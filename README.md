@@ -8,7 +8,7 @@ This module create all required resources for deploy a public or private load ba
 
 ```bash
 module "az_lb" {
-  source = "https://github.com/walmartdigital/k8s-lb-module.git?ref=0.0.2"
+  source = "https://github.com/walmartdigital/k8s-lb-module.git?ref=0.1.0"
 
   resource_group = "my-resource-group"
   cluster_name   = "my-cluster-name"
@@ -26,16 +26,14 @@ module "az_lb" {
 
 ```bash
 module "az_lb" {
-  source = "git::https://github.com/walmartdigital/k8s-lb-module.git?ref=0.0.2"
+  source = "git::https://github.com/walmartdigital/k8s-lb-module.git?ref=0.1.0"
 
   resource_group                         = "my-resource-group"
   cluster_name                           = "my-cluster-name"
   environment                            = "staging"
   name_suffix                            = "abc123"
   lb_type                                = "private"
-  frontend_subnet_id                     = "subnet-id"
-  frontend_private_ip_address_allocation = "Static"
-  frontend_private_ip_address            = "10.20.0.2"
+  subnet_id                              = "subnet-id"
 
   lb_ports = {
     http  = ["80", "Tcp", "80"]
@@ -51,10 +49,11 @@ module "az_lb" {
 * **cluster_name**: A string used as the cluster name.
 * **environment**: A string used as environment where the cluster is deployed.
 * **name_suffix**: A string used as name suffix.
-* **lb_type**: A string used as the load balancer type. Default is public. If the load balancer type is private, you need to provide the following string variables: _frontend_subnet_id_, _frontend_private_ip_address_allocation_ and _frontend_private_ip_address_.
+* **lb_type**: A string used as the load balancer type. Default is public. If the load balancer type is private, you need to provide the following string variables: _subnet_id_ (required), _frontend_private_ip_address_allocation_ (optional) and _frontend_private_ip_address_ (optional).
 * **lb_port**: A map used to provide the load balancer rules, each item is a key/value object, and the value is a list with the following variables: _frontend_port_, _protocol_, _backend_port_.
 
 ## Outputs
 
-* **load_balancer_ip**: The load balancer public IP.
-* **lb_address_pool_id**: The load balancer pool ID.
+* **load_balancer_public_ip**: The load balancer public IP.
+* **load_balancer_private_ip**: The load balancer private IP.
+* **lb_address_pool_id**: The load balancer address pool ID.
