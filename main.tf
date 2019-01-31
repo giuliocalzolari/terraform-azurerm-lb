@@ -3,6 +3,7 @@ data "azurerm_resource_group" "main" {
 }
 
 data "azurerm_subnet" "main" {
+  count                = "${var.lb_type == "private" ? 1 : 0}"
   name                 = "${var.subnet_name}"
   virtual_network_name = "${var.vnet_name}"
   resource_group_name  = "${data.azurerm_resource_group.main.name}"
