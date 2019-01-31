@@ -38,24 +38,24 @@ resource "azurerm_lb_backend_address_pool" "address_pool" {
 }
 
 resource "azurerm_lb_probe" "lb_probe" {
-  count               = "${length(var.lb_port)}"
+  count               = "${length(var.lb_ports)}"
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
-  name                = "${element(keys(var.lb_port), count.index)}"
-  protocol            = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 1)}"
-  port                = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 2)}"
+  name                = "${element(keys(var.lb_ports), count.index)}"
+  protocol            = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 1)}"
+  port                = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 2)}"
   interval_in_seconds = "${var.lb_probe_interval}"
   number_of_probes    = "${var.lb_probe_unhealthy_threshold}"
 }
 
 resource "azurerm_lb_rule" "lb_rule" {
-  count                          = "${length(var.lb_port)}"
+  count                          = "${length(var.lb_ports)}"
   resource_group_name            = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id                = "${azurerm_lb.load_balancer.id}"
-  name                           = "${element(keys(var.lb_port), count.index)}"
-  protocol                       = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 1)}"
-  frontend_port                  = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 0)}"
-  backend_port                   = "${element(var.lb_port["${element(keys(var.lb_port), count.index)}"], 2)}"
+  name                           = "${element(keys(var.lb_ports), count.index)}"
+  protocol                       = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 1)}"
+  frontend_port                  = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 0)}"
+  backend_port                   = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 2)}"
   frontend_ip_configuration_name = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-frontend"
   enable_floating_ip             = false
   backend_address_pool_id        = "${azurerm_lb_backend_address_pool.address_pool.id}"

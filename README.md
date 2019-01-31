@@ -15,7 +15,7 @@ module "az_lb" {
   environment    = "staging"
   name_suffix    = "abc123"
 
-  lb_port = {
+  lb_ports = {
     http  = ["80", "Tcp", "80"]
     https = ["443", "Tcp", "443"]
   }
@@ -37,7 +37,7 @@ module "az_lb" {
   frontend_private_ip_address_allocation = "Static"
   frontend_private_ip_address            = "10.20.0.2"
 
-  lb_port = {
+  lb_ports = {
     http  = ["80", "Tcp", "80"]
     https = ["443", "Tcp", "443"]
     dns   = ["53", "Tcp", "53"]
