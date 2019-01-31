@@ -8,7 +8,7 @@ This module create all required resources for deploy a public or private load ba
 
 ```bash
 module "az_lb" {
-  source = "https://github.com/walmartdigital/k8s-lb-module.git?ref=0.1.0"
+  source = "git::https://github.com/walmartdigital/k8s-lb-module.git?ref=0.1.0"
 
   resource_group = "my-resource-group"
   cluster_name   = "my-cluster-name"
