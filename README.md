@@ -16,8 +16,8 @@ module "az_lb" {
   name_suffix    = "abc123"
 
   lb_ports = {
-    http  = ["80", "Tcp", "80"]
-    https = ["443", "Tcp", "443"]
+    http  = ["80", "Tcp", "80", "80"]
+    https = ["443", "Tcp", "443", "443"]
   }
 }
 ```
@@ -36,9 +36,9 @@ module "az_lb" {
   subnet_id                              = "subnet-id"
 
   lb_ports = {
-    http  = ["80", "Tcp", "80"]
-    https = ["443", "Tcp", "443"]
-    dns   = ["53", "Tcp", "53"]
+    http  = ["80", "Tcp", "80", "80"]
+    https = ["443", "Tcp", "443", "443"]
+    dns   = ["53", "Udp", "53", "55"]
   }
 }
 ```
@@ -50,7 +50,7 @@ module "az_lb" {
 * **environment**: A string used as environment where the cluster is deployed.
 * **name_suffix**: A string used as name suffix.
 * **lb_type**: A string used as the load balancer type. Default is public. If the load balancer type is private, you need to provide the following string variables: _subnet_id_ (required), _frontend_private_ip_address_allocation_ (optional) and _frontend_private_ip_address_ (optional).
-* **lb_port**: A map used to provide the load balancer rules, each item is a key/value object, and the value is a list with the following variables: _frontend_port_, _protocol_, _backend_port_.
+* **lb_ports**: A map used to provide the load balancer rules, each item is a key/value object, and the value is a list with the following variables: _frontend_port_, _protocol_, _backend_port_, _probe_port_.
 
 ## Outputs
 
