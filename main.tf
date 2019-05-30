@@ -36,10 +36,10 @@ resource "azurerm_lb_probe" "lb_probe" {
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
   name                = "${element(keys(var.lb_ports), count.index)}"
   protocol            = "Http"
-  port                = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 2)}"
+  port                = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 3)}"
   interval_in_seconds = "${var.lb_probe_interval}"
   number_of_probes    = "${var.lb_probe_unhealthy_threshold}"
-  request_path        = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 3)}"
+  request_path        = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 4)}"
 }
 
 resource "azurerm_lb_rule" "lb_rule" {
