@@ -35,7 +35,7 @@ resource "azurerm_lb_probe" "lb_probe" {
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
   name                = "${element(keys(var.lb_ports), count.index)}"
-  protocol            = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 1)}"
+  protocol            = "Http"
   port                = "${element(var.lb_ports["${element(keys(var.lb_ports), count.index)}"], 2)}"
   interval_in_seconds = "${var.lb_probe_interval}"
   number_of_probes    = "${var.lb_probe_unhealthy_threshold}"
