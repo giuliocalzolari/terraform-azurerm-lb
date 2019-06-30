@@ -47,7 +47,7 @@ resource "azurerm_lb_probe" "dns_lb_probe" {
   resource_group_name = "${data.azurerm_resource_group.main.name}"
   loadbalancer_id     = "${azurerm_lb.load_balancer.id}"
   name                = "${element(keys(var.dns_lb_ports), count.index)}"
-  protocol            = "${element(var.dns_lb_ports["${element(keys(var.dns_lb_ports), count.index)}"], 1)}"
+  protocol            = "Tcp"
   port                = "${element(var.dns_lb_ports["${element(keys(var.dns_lb_ports), count.index)}"], 3)}"
   interval_in_seconds = "${var.lb_probe_interval}"
   number_of_probes    = "${var.lb_probe_unhealthy_threshold}"
