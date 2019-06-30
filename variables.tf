@@ -19,7 +19,12 @@ variable "name_suffix" {
   type = "string"
 }
 
-variable "lb_ports" {
+variable "http_lb_ports" {
+  type    = "map"
+  default = {}
+}
+
+variable "dns_lb_ports" {
   type    = "map"
   default = {}
 }
