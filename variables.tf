@@ -1,55 +1,55 @@
 variable "resource_group" {
-  type = "string"
+  type = string
 }
 
 variable "lb_type" {
-  type    = "string"
+  type    = string
   default = "public"
 }
 
 variable "cluster_name" {
-  type = "string"
+  type = string
 }
 
 variable "environment" {
-  type = "string"
+  type = string
 }
 
 variable "name_suffix" {
-  type = "string"
+  type = string
 }
 
 variable "http_lb_ports" {
-  type    = "map"
+  type    = map(object({ port = list(string) }))
   default = {}
 }
 
 variable "dns_lb_ports" {
-  type    = "map"
+  type    = map(object({ port = list(string) }))
   default = {}
 }
 
 variable "lb_probe_interval" {
-  type    = "string"
+  type    = string
   default = 5
 }
 
 variable "lb_probe_unhealthy_threshold" {
-  type    = "string"
+  type    = string
   default = 2
 }
 
 variable "subnet_id" {
-  type    = "string"
+  type    = string
   default = ""
 }
 
 variable "frontend_private_ip_address_allocation" {
-  type    = "string"
+  type    = string
   default = "Dynamic"
 }
 
 variable "frontend_private_ip_address" {
-  type    = "string"
+  type    = string
   default = ""
 }
