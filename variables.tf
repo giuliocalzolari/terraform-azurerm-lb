@@ -20,12 +20,12 @@ variable "name_suffix" {
 }
 
 variable "http_lb_ports" {
-  type    = map(object({ port = list(string) }))
+  type    = map(list(string))
   default = {}
 }
 
 variable "dns_lb_ports" {
-  type    = map(object({ port = list(string) }))
+  type    = map(list(string))
   default = {}
 }
 
