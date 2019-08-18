@@ -19,12 +19,7 @@ variable "name_suffix" {
   type = string
 }
 
-variable "http_lb_ports" {
-  type    = map(list(string))
-  default = {}
-}
-
-variable "dns_lb_ports" {
+variable "lb_ports" {
   type    = map(list(string))
   default = {}
 }

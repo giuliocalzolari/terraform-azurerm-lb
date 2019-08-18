@@ -34,57 +34,30 @@ resource "azurerm_lb_backend_address_pool" "address_pool" {
   loadbalancer_id     = azurerm_lb.load_balancer.id
 }
 
-resource "azurerm_lb_probe" "http_lb_probe" {
-  count               = length(var.http_lb_ports)
-  resource_group_name = data.azurerm_resource_group.main.name
-  loadbalancer_id     = azurerm_lb.load_balancer.id
-  name                = element(keys(var.http_lb_ports), count.index)
-  protocol            = values(var.http_lb_ports)[count.index][1]
-  port                = values(var.http_lb_ports)[count.index][3]
-  interval_in_seconds = var.lb_probe_interval
-  number_of_probes    = var.lb_probe_unhealthy_threshold
-  request_path        = values(var.http_lb_ports)[count.index][4]
-}
-
-resource "azurerm_lb_rule" "http_lb_rule" {
-  count                          = length(var.http_lb_ports)
+resource "azurerm_lb_rule" "lb_rule" {
+  count                          = length(var.lb_ports)
   resource_group_name            = data.azurerm_resource_group.main.name
   loadbalancer_id                = azurerm_lb.load_balancer.id
-  name                           = element(keys(var.http_lb_ports), count.index)
-  protocol                       = "Tcp"
-  frontend_port                  = values(var.http_lb_ports)[count.index][0]
-  backend_port                   = values(var.http_lb_ports)[count.index][2]
+  name                           = element(keys(var.lb_ports), count.index)
+  protocol                       = values(var.lb_ports)[count.index][1]
+  frontend_port                  = values(var.lb_ports)[count.index][0]
+  backend_port                   = values(var.lb_ports)[count.index][2]
   frontend_ip_configuration_name = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-frontend"
   enable_floating_ip             = false
   backend_address_pool_id        = azurerm_lb_backend_address_pool.address_pool.id
   idle_timeout_in_minutes        = 5
-  probe_id                       = element(azurerm_lb_probe.http_lb_probe.*.id, count.index)
-  depends_on                     = [azurerm_lb_probe.http_lb_probe]
+  probe_id                       = element(azurerm_lb_probe.lb_probe.*.id, count.index)
+  depends_on                     = [azurerm_lb_probe.lb_probe]
 }
 
-resource "azurerm_lb_probe" "dns_lb_probe" {
-  count               = length(var.dns_lb_ports)
+resource "azurerm_lb_probe" "lb_probe" {
+  count               = length(var.lb_ports)
   resource_group_name = data.azurerm_resource_group.main.name
   loadbalancer_id     = azurerm_lb.load_balancer.id
-  name                = element(keys(var.dns_lb_ports), count.index)
-  protocol            = "Tcp"
-  port                = values(var.dns_lb_ports)[count.index][3]
+  name                = element(keys(var.lb_ports), count.index)
+  protocol            = values(var.lb_ports)[count.index][4] != "" ? "http" : "Tcp"
+  port                = values(var.lb_ports)[count.index][3]
   interval_in_seconds = var.lb_probe_interval
   number_of_probes    = var.lb_probe_unhealthy_threshold
-}
-
-resource "azurerm_lb_rule" "dns_lb_rule" {
-  count                          = length(var.dns_lb_ports)
-  resource_group_name            = data.azurerm_resource_group.main.name
-  loadbalancer_id                = azurerm_lb.load_balancer.id
-  name                           = element(keys(var.dns_lb_ports), count.index)
-  protocol                       = "Udp"
-  frontend_port                  = values(var.dns_lb_ports)[count.index][0]
-  backend_port                   = values(var.dns_lb_ports)[count.index][2]
-  frontend_ip_configuration_name = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-frontend"
-  enable_floating_ip             = false
-  backend_address_pool_id        = azurerm_lb_backend_address_pool.address_pool.id
-  idle_timeout_in_minutes        = 5
-  probe_id                       = element(azurerm_lb_probe.dns_lb_probe.*.id, count.index)
-  depends_on                     = [azurerm_lb_probe.dns_lb_probe]
+  request_path        = values(var.lb_ports)[count.index][4] != "" ? values(var.lb_ports)[count.index][4] : ""
 }
