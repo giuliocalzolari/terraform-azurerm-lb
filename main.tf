@@ -56,10 +56,6 @@ resource "azurerm_lb_rule" "lb_rule" {
   idle_timeout_in_minutes        = 5
   probe_id                       = element(concat(azurerm_lb_probe.lb_probe.*.id, list("")), count.index)
   depends_on                     = [azurerm_lb_probe.lb_probe]
-
-  tags = "${merge(var.default_tags, map(
-  "cluster", "${var.cluster_name}-${var.environment}-${var.name_suffix}"
-  ))}"
 }
 
 resource "azurerm_lb_probe" "lb_probe" {
