@@ -40,10 +40,6 @@ resource "azurerm_lb_backend_address_pool" "address_pool" {
   name                = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-workers"
   resource_group_name = data.azurerm_resource_group.main.name
   loadbalancer_id     = azurerm_lb.load_balancer.id
-
-  tags = "${merge(var.default_tags, map(
-  "cluster", "${var.cluster_name}-${var.environment}-${var.name_suffix}"
-  ))}"
 }
 
 resource "azurerm_lb_rule" "lb_rule" {
@@ -76,8 +72,4 @@ resource "azurerm_lb_probe" "lb_probe" {
   interval_in_seconds = var.lb_probe_interval
   number_of_probes    = var.lb_probe_unhealthy_threshold
   request_path        = values(var.lb_ports)[count.index][4] != "" ? values(var.lb_ports)[count.index][4] : ""
-
-  tags = "${merge(var.default_tags, map(
-  "cluster", "${var.cluster_name}-${var.environment}-${var.name_suffix}"
-  ))}"
 }
