@@ -34,7 +34,12 @@ variable "lb_probe_unhealthy_threshold" {
   default = 2
 }
 
-variable "subnet_id" {
+variable "vnet_name" {
+  type    = string
+  default = ""
+}
+
+variable "subnet_name" {
   type    = string
   default = ""
 }

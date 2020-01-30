@@ -6,6 +6,12 @@ data "azurerm_resource_group" "main" {
   name = var.resource_group
 }
 
+data "azurerm_subnet" "subnet" {
+  name                 = var.subnet_name
+  virtual_network_name = var.vnet_name
+  resource_group_name  = data.azurerm_resource_group.main.name
+}
+
 resource "azurerm_public_ip" "public_ip" {
   count               = var.lb_type == "public" ? 1 : 0
   name                = "${var.cluster_name}-${var.environment}-${var.name_suffix}-pip"
@@ -24,7 +30,7 @@ resource "azurerm_lb" "load_balancer" {
   frontend_ip_configuration {
     name                          = "${var.cluster_name}-${var.environment}-${var.lb_type}-${var.name_suffix}-frontend"
     public_ip_address_id          = var.lb_type == "public" ? join("", azurerm_public_ip.public_ip.*.id) : ""
-    subnet_id                     = var.subnet_id
+    subnet_id                     = data.azurerm_subnet.subnet
     private_ip_address_allocation = var.frontend_private_ip_address_allocation
     private_ip_address            = var.frontend_private_ip_address_allocation == "Static" ? var.frontend_private_ip_address : ""
   }
