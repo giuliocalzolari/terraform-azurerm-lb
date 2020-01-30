@@ -50,6 +50,6 @@ variable "frontend_private_ip_address" {
 }
 
 variable "default_tags" {
-  type = "map"
+  type = map
   default = {}
 }
