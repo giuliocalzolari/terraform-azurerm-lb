@@ -21,6 +21,7 @@ variable "name_suffix" {
 
 variable "target" {
   type = string
+  default = "workers"
 }
 
 variable "lb_ports" {
