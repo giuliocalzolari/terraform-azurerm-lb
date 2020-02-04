@@ -19,6 +19,10 @@ variable "name_suffix" {
   type = string
 }
 
+variable "target" {
+  type = string
+}
+
 variable "lb_ports" {
   type    = map(list(string))
   default = {}
