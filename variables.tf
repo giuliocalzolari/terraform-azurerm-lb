@@ -20,7 +20,7 @@ variable "name_suffix" {
 }
 
 variable "target" {
-  type = string
+  type    = string
   default = "workers"
 }
 
@@ -55,6 +55,11 @@ variable "frontend_private_ip_address" {
 }
 
 variable "default_tags" {
-  type = map
-  default = {}
+  type = map(string)
+
+  default = {
+    applicationname = "Load Balancer"
+    deploymenttype  = "Terraform"
+    platform        = "Agnostic"
+  }
 }

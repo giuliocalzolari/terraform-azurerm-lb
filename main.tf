@@ -13,7 +13,12 @@ resource "azurerm_public_ip" "public_ip" {
   resource_group_name = data.azurerm_resource_group.main.name
   allocation_method   = "Static"
 
-  tags = merge(var.default_tags, map("cluster", "${var.cluster_name}-${var.environment}-${var.name_suffix}"))
+  tags = merge(
+    var.default_tags,
+    {
+      "cluster" = "${var.cluster_name}-${var.environment}-${var.name_suffix}"
+    },
+  )
 }
 
 resource "azurerm_lb" "load_balancer" {
@@ -29,7 +34,12 @@ resource "azurerm_lb" "load_balancer" {
     private_ip_address            = var.frontend_private_ip_address_allocation == "Static" ? var.frontend_private_ip_address : ""
   }
 
-  tags = merge(var.default_tags, map("cluster", "${var.cluster_name}-${var.environment}-${var.name_suffix}"))
+  tags = merge(
+    var.default_tags,
+    {
+      "cluster" = "${var.cluster_name}-${var.environment}-${var.name_suffix}"
+    },
+  )
 }
 
 resource "azurerm_lb_backend_address_pool" "address_pool" {
